@@ -2,13 +2,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
+//Vertex Shader Source Code
 const char* VertexShaderSource = "#version 330 core \n"
 "layout (location = 0) in vec3 aPos; \n"
 "void main()\n"
 "{\n"
 "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
 "}\0";
+//Fragment Shader Source Code
 const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main()\n"
@@ -17,11 +18,14 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "}\n\0";
 
 int main()
-{
+{ //Initialize GLFW
 	glfwInit();
-
+	//Here we are telling GLFW which version of OpenGL we are using
+	//In this case we are using OpenGL version 3.3
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//Tell GLFW that we are using the Core Profile
+	//so that means we only have the modern functions
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	GLfloat vertices[] =
