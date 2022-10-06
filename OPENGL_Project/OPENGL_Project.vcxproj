@@ -72,16 +72,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\VS Projects\OPENGL_Project\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VS Projects\OPENGL_Project\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VS Projects\OPEN_GL\OPEN_GL\OPENGL_Project\Libraries\include;C:\VS Projects\OPENGL_Project\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\VS Projects\OPEN_GL\OPEN_GL\OPENGL_Project\Libraries\lib;C:\VS Projects\OPENGL_Project\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\VS Projects\OPENGL_Project\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VS Projects\OPENGL_Project\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VS Projects\OPEN_GL\OPEN_GL\OPENGL_Project\Libraries\include;C:\VS Projects\OPENGL_Project\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\VS Projects\OPEN_GL\OPEN_GL\OPENGL_Project\Libraries\lib;C:\VS Projects\OPENGL_Project\Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -148,6 +148,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Tester.cpp" />
+    <ClCompile Include="WindowTriangleCreation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h" />
