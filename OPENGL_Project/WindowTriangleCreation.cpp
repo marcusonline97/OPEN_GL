@@ -47,30 +47,32 @@ int main()
 
 	gladLoadGL(); //Load GLAD so it configures OGL
 	//Specifying the viewport in OpenGl
-	//In this case 
+	//In this case x = 0, y = 0, x = 800, y = 800.
 	glViewport(0, 0, 800, 800); //Determining the size of the Window.
 
+
+	//Create Vertex Shader Object and get reference
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	//Attach the Vertex Shader Source to the Vertex Shader Object 
 	glShaderSource(vertexShader, 1, &VertexShaderSource, NULL);
+	//Compile the VertexShader into machine code.
 	glCompileShader(vertexShader);
-
+	//Create Fragment Shader Object and get a reference
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	//Attach the Fragment Shader Source to the Fragment Shader Object
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	//Compile the Fragment Shader into machine code.
 	glCompileShader(fragmentShader);
-
+	//Create Shader Program Object and get a reference
 	GLuint shaderProgram = glCreateProgram();
+	//Attach the Vertex Shader and Fragment Shader to the Shader Program
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
+	//Wrap-in/Linking all the shaders togethere into the Shader Program
 	glLinkProgram(shaderProgram);
-
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-
-	///////////////////////////////////////////////////
-	/// <VertexBuffers>
-	/// <returns></returns>
-	//
 	GLuint VAO, VBO;
 
 	glGenVertexArrays(1, &VAO);
@@ -106,7 +108,7 @@ int main()
 		glfwSwapBuffers(window);
 		//Take care of the glfwEvents
 		glfwPollEvents();
-	}
+	
 	glfwDestroyWindow(window);
 	glfwTerminate();
 
