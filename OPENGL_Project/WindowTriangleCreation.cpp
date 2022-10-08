@@ -28,6 +28,7 @@ int main()
 	//so that means we only have the modern functions
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	//Vertices coordinates
 	GLfloat vertices[] =
 	{
 		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
@@ -38,14 +39,15 @@ int main()
 	//ThirdValue is the text space for the name of the window. 
 
 	if (window == NULL) {
-		std::cout << "Failed to create Window." << std::endl; // Debug of a failed window creation.
+		std::cout << "Failed to create Window." << std::endl; // Debug íf it was to fail to create a window.
 		glfwTerminate();
 		return -1;
 	}
 	glfwMakeContextCurrent(window); //Create a window
 
-	gladLoadGL(); //Load the window
-
+	gladLoadGL(); //Load GLAD so it configures OGL
+	//Specifying the viewport in OpenGl
+	//In this case 
 	glViewport(0, 0, 800, 800); //Determining the size of the Window.
 
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -89,21 +91,24 @@ int main()
 	glfwSwapBuffers(window); //Here we replace the windows base colour with the one we added above.
 
 
-	while (!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(window)) 
+
 		glClearColor(0.05f, 0.73f, 0.57f, 1.0f);
+
 		glClear(GL_COLOR_BUFFER_BIT);
+
 		glUseProgram(shaderProgram);
+
 		glBindVertexArray(VAO);
+		//Declare how many Arrays we want GL to draw.
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
 		glfwSwapBuffers(window);
 		//Take care of the glfwEvents
 		glfwPollEvents();
 	}
-
 	glfwDestroyWindow(window);
 	glfwTerminate();
-
-	//Note to self (GLÖM INTE STD:: !!!!! Vi ska inte bekanta oss med att använda namespaces.
 
 	return 0;
 }
