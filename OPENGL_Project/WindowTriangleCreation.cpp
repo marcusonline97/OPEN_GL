@@ -70,14 +70,17 @@ int main()
 	glAttachShader(shaderProgram, fragmentShader);
 	//Wrap-in/Linking all the shaders togethere into the Shader Program
 	glLinkProgram(shaderProgram);
+	//Delete the now useless Vertex and Fragment Shader objects
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
-
+	//Create a reference container to the Vertex Array Object and Vertex Buffer Object
 	GLuint VAO, VBO;
-
+	//Generate the VAO and VBO with only 1 object each.
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+
 	glBindVertexArray(VAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
