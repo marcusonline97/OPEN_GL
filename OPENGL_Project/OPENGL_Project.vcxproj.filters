@@ -21,7 +21,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tester.cpp">
+    <ClCompile Include="WindowTriangleCreation2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WindowTriangleCreation.cpp">
