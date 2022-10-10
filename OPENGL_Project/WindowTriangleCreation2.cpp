@@ -134,4 +134,4 @@ int main()
 	glfwTerminate();
 
 	return 0;
-}
+} //Launching Error in Debug mode. Unsure of the issue.

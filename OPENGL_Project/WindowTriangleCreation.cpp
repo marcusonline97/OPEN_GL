@@ -16,7 +16,6 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "{\n"
 "     FragColor = vec4(2.55f, 0.15f, 0.15f, 1.0f);\n"
 "}\n\0";
-
 int main()
 { //Initialize GLFW
 	glfwInit();
