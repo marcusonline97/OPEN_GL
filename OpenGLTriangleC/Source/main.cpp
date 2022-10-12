@@ -34,9 +34,9 @@ int main()
 		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
 		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
 		0.0f, +0.5f * float(sqrt(2)) / 3, 0.0f
-		-0.5f / 2, 0.5f *float(sqrt(3)), 6, 0.0f, //Inner Left
-		0.5f / 2, 0.5f *float(sqrt(3)), 6 , 0.0f,//Inner Right
-		0.0f, -0.5f * float(sqrt(3)), 3, 0.0f// Inner Down
+		-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, //Inner Left
+		0.5f / 2, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,//Inner Right
+		0.0f, -0.5f * float(sqrt(3)) * 2 / 3, 0.0f// Inner Down
 
 	};
 	GLuint indices[] =

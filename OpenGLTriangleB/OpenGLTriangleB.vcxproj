@@ -24,6 +24,7 @@
     <ProjectGuid>{eca6429c-b903-45d9-8a2b-85255791d96b}</ProjectGuid>
     <RootNamespace>OpenGLTriangleB</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>OpenGLTriangleTesting</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
