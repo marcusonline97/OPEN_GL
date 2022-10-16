@@ -14,7 +14,7 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main()\n"
 "{\n"
-"     FragColor = vec4(2.55f, 0.15f, 0.15f, 1.0f);\n"
+"     FragColor = vec4(0.55f, 0.15f, 0.15f, 1.0f);\n"
 "}\n\0";
 
 int main()
@@ -28,23 +28,6 @@ int main()
 	//so that means we only have the modern functions
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	//Vertices coordinates
-	GLfloat vertices[] =
-	{
-		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
-		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
-		0.0f, +0.5f * float(sqrt(2)) / 3, 0.0f
-		-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, //Inner Left
-		0.5f / 2, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,//Inner Right
-		0.0f, -0.5f * float(sqrt(3)) * 2 / 3, 0.0f// Inner Down
-
-	};
-	GLuint indices[] =
-	{
-		0, 3 ,5, // Lower Left Triangle
-		3, 2 ,4, //Lower Right Triangle
-		5,4 , 1 //Upper Triangle
-	};
 	GLFWwindow* window = glfwCreateWindow(800, 800, "My TestBox", NULL, NULL); //2 first values for the size of the window
 	//ThirdValue is the text space for the name of the window. 
 
@@ -83,6 +66,25 @@ int main()
 	//Delete the now useless Vertex and Fragment Shader objects
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+
+	//Vertices coordinates
+	GLfloat vertices[] =
+	{
+		-1.0f, -1.0f * float(sqrt(3)) / 3, 0.0f, //Lower Left Corner
+		1.0f, -1.0f * float(sqrt(3)) / 3, 0.0f, //Lower Right Corner
+		0.0f, 1.1f * float(sqrt(2))* 2 / 3, 0.0f,
+		-1.0f / 2, 1.0f * float(sqrt(3)) / 6, 0.0f, //Inner Left
+		1.0f / 2, 1.0f * float(sqrt(3))  / 6, 0.0f,//Inner Right
+		0.0f, -1.0f * float(sqrt(3)) / 3, 0.0f// Inner Down
+
+	};
+	GLuint indices[] =
+	{
+		0, 3, 5, // Lower Left Triangle
+		3, 2, 4, //Lower Right Triangle
+		5, 4, 1 //Upper Triangle
+	};
+
 	//Create a reference container to the Vertex Array Object and Vertex Buffer Object
 	GLuint VAO, VBO, EBO;
 	//Generate the VAO and VBO with only 1 object each.
@@ -102,33 +104,33 @@ int main()
 	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	glClearColor(0.87f, 0.63f, 0.37f, 1.0f); //The 3 first values signify RGB numbers and the last digit stand for the Alpha
-	glClear(GL_COLOR_BUFFER_BIT); //We tell the program that we want to clear the original colour.
-
-	glfwSwapBuffers(window); //Here we replace the windows base colour with the one we added above.
-
-
-	while (!glfwWindowShouldClose(window))
-
-		glClearColor(0.05f, 0.73f, 0.57f, 1.0f);
-
-	glClear(GL_COLOR_BUFFER_BIT);
+	glBindVertexArray(0);
 
 	glUseProgram(shaderProgram);
 
 	glBindVertexArray(VAO);
-	//Declare how many Arrays we want GL to draw.
-	glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	//glFrontFace(GL_CW);
+	//glFrontFace(GL_CCW);
 
-	glfwSwapBuffers(window);
-	//Take care of the glfwEvents
-	glfwPollEvents();
-	glDeleteVertexArrays(1, &VAO);
+	//Declare how many Arrays we want GL to draw.
+
+
+	while (!glfwWindowShouldClose(window))
+	{
+		glClearColor(0.87f, 0.63f, 0.37f, 1.0f); //The 3 first values signify RGB numbers and the last digit stand for the Alpha
+		glClear(GL_COLOR_BUFFER_BIT); //We tell the program that we want to clear the original colour.
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		glfwSwapBuffers(window);
+		//Take care of the glfwEvents
+		glfwPollEvents();
+	}
+	glDeleteVertexArrays(1, &EBO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	glDeleteBuffers(1, &VAO);
 	glDeleteProgram(shaderProgram);
 	glfwDestroyWindow(window);
 	glfwTerminate();
