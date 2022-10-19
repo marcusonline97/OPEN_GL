@@ -116,6 +116,7 @@ int main()
 	//glFrontFace(GL_CCW);
 
 	//Declare how many Arrays we want GL to draw.
+	//TestUpdate
 
 
 	while (!glfwWindowShouldClose(window))
