@@ -29,7 +29,7 @@ const char* fragSrc =
 "   FragColor = vec4(uColor, 1.0);"
 "}";
 
-#if banana 0
+#if tempShaderUseless 0
 GLuint Compileshader(GLenum type, const char* src)
 {
 	GLuint s = glCreateShader(type);
@@ -126,7 +126,6 @@ public:
 
 int main()
 {
-	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -144,14 +143,15 @@ int main()
 	double lastTime = glfwGetTime();
 
 	std::vector<float> velocity = { 0.0f, 50.0f };
-	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glLineWidth(2.0f);
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//MatrixUpdate();
-		Triangle();
-		//DrawCirclein3D(0.0f, 0.0f, 0.0f, 1.5f, 128);
+		MatrixUpdate();
+		//Triangle();
+		DrawCirclein3D(0.0f, 0.0f, 0.0f, 1.5f, 128);
 
 
 
@@ -190,6 +190,7 @@ GLFWwindow* StartGLFW()
 
 void DrawCirclein3D(float centerX, float centerY, float centerZ, float radius, int segments)
 {
+
 	glBegin(GL_LINE_LOOP);
 	for (int i = 0; i < segments; i++)
 	{
@@ -197,7 +198,7 @@ void DrawCirclein3D(float centerX, float centerY, float centerZ, float radius, i
 		float x = radius * cosf(theta);
 		float z = radius * sinf(theta);
 
-		glVertex3f(centerX + x, centerY, centerZ + z);
+		glVertex3f(centerX + x,  centerZ + z ,centerY );
 	}
 	glEnd();
 }
