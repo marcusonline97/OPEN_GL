@@ -18,8 +18,5 @@
     <ClCompile Include="Source\main.cpp">
       <Filter>SourceData</Filter>
     </ClCompile>
-    <ClCompile Include="Source\glad.c">
-      <Filter>SourceData</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
