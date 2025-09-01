@@ -18,5 +18,16 @@
     <ClCompile Include="Source\main.cpp">
       <Filter>SourceData</Filter>
     </ClCompile>
+    <ClCompile Include="..\OpenGLTriangleC\Source\glad.c">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenGLTriangleC\CircleMesh.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\OpenGLTriangleC\CircleMesh.h">
+      <Filter>SourceData</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
