@@ -1,4 +1,5 @@
 //#include <GL/GL.h> //Legacy old Graphics library
+#include <glad/glad.h>
 #include <GLFW/glfw3.h> //Extensions of OpenGL and more modern Window functionality wrapper
 //#include <GL/glu.h> Utility 
 #include <glm/glm.hpp>
@@ -7,7 +8,6 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
-
 static const float screenHeight = 900.0f;
 static const float screenWidth = 1000.0f;
 
@@ -46,18 +46,41 @@ GLuint Compileshader(GLenum type, const char* src)
 }
 #endif
 //Variables
+bool running = true;
+bool pause = true;
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0;
-
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 1.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+float lastX = 400.0, lastY = 300.0;
+float yaw = -90;
+float pitch = 0.0;
+float deltaTime = 0.0;
+float lastFrame = 0.0;
 //Functions
 GLFWwindow* StartGLFW();
+void MatrixUpdate();
+
 //Function Shapes
 
+//Shader Program
+GLuint CreateShaderProgram(const char* vertexSource, const char* fragmentSource);
+void CreateVBOVAO(GLuint& VBO, GLuint& VAO, const std::vector<float>& vertices);
+
+
+//Cleaner to call OpenGL functions
+void DeltaTime(); //Cleaner function to calculate delta time
+
+void WindowHint(); //Cleaner function to set window hints
+
+void Camera(); //Cleaner function to set camera
 //Function Prototypes
 void DrawCircle(float centerX, float centerY, float radius, int res);
 void Triangle();
-void MatrixUpdate();
-void DrawCirclein3D(float centerX, float centerY, float centerZ , float radius, int segments = 64);
+void DrawCirclein3D(float centerX, float centerY, float centerZ, float radius, int segments = 64); // CPU function to draw a circle in 3D space
+
+std::vector<float> DrawPlanetin3d(float radius, int segments = 64); // GPU function to draw a planet in 3D space
 
 auto CameraLookMatrix = glm::lookAt(glm::vec3(0.0, 0.0, 5.0),
 	glm::vec3(0.0, 0.0, 0.0),
@@ -66,17 +89,24 @@ auto CameraLookMatrix = glm::lookAt(glm::vec3(0.0, 0.0, 5.0),
 );
 
 glm::mat4 projection = glm::perspective(glm::radians(45.0f), screenWidth / screenHeight, 0.1f, 100.0f); // Projection Matrix
-/*
+
+
+
+class Planet
+{
+public:
+	GLuint VAO, VBO;
+	glm::vec3 position;
+	glm::vec3 velocity = glm::vec3(0, 0, 0);
+	size_t vertexCount;
+	glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+};
 class Earth : Planet
 {
 
 };
 
-class Planet
-{
-
-};
-*/
 
 class Object
 {
@@ -126,23 +156,16 @@ public:
 
 int main()
 {
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	void WindowHint();
 
 	GLFWwindow* window = StartGLFW();
 	if (!window) return -1;
 
-	float currentFrame = glfwGetTime();
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
+	DeltaTime();
 
-	std::vector<float> position = { 400.0f, 300.0f };
-	//std::vector<float> velocity = { 0.0f, 0.0f };
+
 	double lastTime = glfwGetTime();
-
-	std::vector<float> velocity = { 0.0f, 50.0f };
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glLineWidth(2.0f);
 	while (!glfwWindowShouldClose(window))
@@ -152,10 +175,10 @@ int main()
 		MatrixUpdate();
 		//Triangle();
 		DrawCirclein3D(0.0f, 0.0f, 0.0f, 1.5f, 128);
+		//DrawPlanetin3d(float radius, int segments);
 
 
-
-		glFlush();
+		glFlush(); // Ensure all OpenGL commands are executed
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
@@ -203,6 +226,22 @@ void DrawCirclein3D(float centerX, float centerY, float centerZ, float radius, i
 	glEnd();
 }
 
+std::vector<float> DrawPlanetin3d(float radius, int segments)
+{
+	std::vector<float> data;
+	data.reserve(segments * 3); // Reserve space for vertices
+	for (int i = 0; i < segments; ++i)
+	{
+		float theta = 2.0f * 3.14159265359f * i / float(segments);
+		float x = radius * cosf(theta);
+		float z = radius * sinf(theta);
+		data.push_back(x);
+		data.push_back(0.0f); // Y coordinate
+		data.push_back(z);
+	}
+	return data;
+}
+
 void DrawCircle (float centerX, float centerY, float radius, int res)
 {
 	glBegin(GL_TRIANGLE_FAN);
@@ -240,7 +279,46 @@ void DrawCircle3D(float centerX, float centerY, float centerZ, float radius, int
 	glEnd();
 }
 
+void WindowHint()
+{
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+}
 
+
+void Camera(GLuint shaderProgram, glm::vec3 cameraPos)
+{
+//	glUseProgram(shaderProgram); // Shaders to apply
+	glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+//	GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
+//	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+}
+
+GLuint CreateShaderProgram(const char* vertexSource, const char* fragmentSource)
+{
+	return GLuint();
+}
+
+void CreateVBOVAO(GLuint& VBO, GLuint& VAO, const std::vector<float>& vertices)
+{
+}
+
+void DeltaTime()
+{
+	float currentFrame = glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+}
+
+void KeyboardInput(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	float cameraSpeed = 10000.f * deltaTime; // adjust accordingly
+	bool shiftPressed = (mods & GLFW_MOD_SHIFT) != 0;
+	
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cameraPos += cameraSpeed * cameraFront;
+}
 void MatrixUpdate()
 {
 	glMatrixMode(GL_PROJECTION);
