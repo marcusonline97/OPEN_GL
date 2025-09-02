@@ -5,29 +5,46 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <stb_image.h>
 #include <iostream>
 #include <cmath>
 #include <vector>
-static const float screenHeight = 900.0f;
-static const float screenWidth = 1000.0f;
 
-constexpr float TWO_PI = 2.0f * 3.14159265358979323846f;
 
-const char* vertSrc =
-"#version 330 core"
-"layout(location = 0) in vec3 aPos;\n"
-"uniform mat4 uMVP;\n"
-"void main() { "
-"    gl_Position = uMVP * vec4(aPos, 1.0);"
-"}";
+// --- Function Declarations ---
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+GLFWwindow* StartGLFW();
+GLuint compileShader(GLenum type, const char* src);
+GLuint createShaderProgram(const char* vertSrc, const char* fragSrc);
+void setupTriangle(GLuint& VAO, GLuint& VBO);
+void processInput(GLFWwindow* window);
+glm::mat4 computeMVP(GLFWwindow* window, float angle);
+//Window settings
+const unsigned int screenHeight = 720;
+const unsigned int screenWidth = 1280;
 
-const char* fragSrc =
-"#version 330 core"
-"out vec4 FragColor"
-"uniform vec3 uColor;"
-"void main() {"
-"   FragColor = vec4(uColor, 1.0);"
-"}";
+
+const char* vertSrc = R"(
+#version 330 core
+layout(location = 0) in vec3 aPos;
+layout(location = 2) in vec2 aTexCoord;
+uniform mat4 uMVP;
+out vec2 TexCoord;
+void main() { 
+    gl_Position = uMVP * vec4(aPos, 1.0);
+	TexCoord = aTexCoord;
+}
+)";
+
+const char* fragSrc = R"(
+#version 330 core
+out vec4 FragColor;
+in vec2 TexCoord;
+uniform sampler2D uTexture;
+void main() {
+   FragColor = texture(uTexture, TexCoord);
+}
+)";
 
 #if tempShaderUseless 0
 GLuint Compileshader(GLenum type, const char* src)
@@ -50,6 +67,8 @@ bool running = true;
 bool pause = true;
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0;
+float aspect = static_cast<float>(screenWidth) / static_cast<float>(screenHeight); // Aspect ratio
+glm::mat4 projection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f); // Projection matrix
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -57,145 +76,42 @@ float lastX = 400.0, lastY = 300.0;
 float yaw = -90;
 float pitch = 0.0;
 //Functions
-GLFWwindow* StartGLFW();
 void MatrixUpdate();
-
 //Function Shapes
 void renderSphere();
 //Shader Program
-
-
-
+GLuint compileShader(GLenum type, const char* src);
+GLuint createShaderProgram(const char* vSrc, const char* fSrc);
+//Texture Loader
+GLuint loadTexture(const char* path);
 //Cleaner to call OpenGL functions
 void DeltaTime(); //Cleaner function to calculate delta time
-
 void WindowInit(); //Cleaner function to set window hints
-
-void Camera(GLuint shaderProgram, glm::vec3 cameraPos); //Cleaner function to set camera
 //Function Prototypes
-void DrawCircle(float centerX, float centerY, float radius, int res);
 void Triangle();
-void DrawCirclein3D(float centerX, float centerY, float centerZ, float radius, int segments = 64); // CPU function to draw a circle in 3D space
 
-glm::mat4 projection = glm::perspective(glm::radians(45.0f), screenWidth / screenHeight, 0.1f, 100.0f); // Projection Matrix
-
-
-
-class Planet
+//--- Declaration Functions ---
+GLFWwindow* StartGLFW() // Works fine
 {
-public:
-	GLuint VAO, VBO;
-	glm::vec3 position;
-	glm::vec3 velocity = glm::vec3(0, 0, 0);
-	size_t vertexCount;
-	glm::vec4 color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	WindowInit();
 
-};
-
-
-class Object
-{
-public:
-	
-	std::vector<float> position;
-	std::vector<float> velocity;
-	float radius;
-
-	Object(std::vector<float> position, std::vector<float> velocity, float radius = 15.0f)
-	{
-		this->position = position;
-		this->velocity = velocity;
-		this->radius = radius;
-	}
-
-	void accelerate(float x, float y)
-	{
-		velocity[0] += x;
-		velocity[1] += y;
-	}
-
-	void updatePos()
-	{
-		position[0] += velocity[0];
-		position[1] += velocity[1];
-	}
-	std::vector<float> DrawPlanet(int res = 10)
-	{
-		std::vector<float> vertices;
-
-	}
-	void DrawCircle(float centerX, float centerY, float radius, int res)
-	{
-		glBegin(GL_TRIANGLE_FAN);
-		glVertex2d(centerX, centerY);
-		for (int i = 0; i <= res; i++)
-		{
-			float angle = 2.0f * 3.14159f * (static_cast<float>(i) / res);
-			float x = centerX + cos(angle) * radius;
-			float y = centerY + sin(angle) * radius;
-			glVertex2d(x, y);
-		}
-		glEnd();
-	}
-};
-
-int main()
-{
-	void WindowHint();
-
-	GLFWwindow* window = StartGLFW();
-	if (!window) return -1;
-
-
-
-	double lastTime = glfwGetTime();
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glLineWidth(2.0f);
-
-	//Tons of boilerplate code to set up shaders and buffers
-
-
-
-	while (!glfwWindowShouldClose(window))
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		DeltaTime();
-
-		MatrixUpdate();
-		//Triangle();
-		void renderSphere();
-		DrawCirclein3D(0.0f, 0.0f, 0.0f, 1.5f, 128);
-		//DrawPlanetin3d(float radius, int segments);
-
-
-		glFlush(); // Ensure all OpenGL commands are executed
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-
-	}
-	glfwTerminate();
-	return 0;
-}
-
-GLFWwindow* StartGLFW()
-{
 	if (!glfwInit())
 	{
 		std::cerr << "failed to Initialize GLFW" << std::endl;
 		return nullptr;
 	}
-	void WindowHint();
+
 
 	GLFWwindow* window = glfwCreateWindow(static_cast<int>(screenWidth), static_cast<int>(screenHeight), "My Space Scene", nullptr, nullptr);
+	glfwMakeContextCurrent(window); //Create a window
 
 	if (!window) {
 		std::cerr << "Failed to create GLFW Window.\n"; // Debug íf it was to fail to create a window.
 		glfwTerminate();
 		return nullptr;
 	}
-	glfwMakeContextCurrent(window); //Create a window
 
-	
+
 	GLFWwindow* current = glfwGetCurrentContext();
 	std::cout << "Current context: " << current
 		<< "  Expected window: " << window << std::endl;
@@ -222,63 +138,151 @@ GLFWwindow* StartGLFW()
 	return window;
 }
 
-void DrawCirclein3D(float centerX, float centerY, float centerZ, float radius, int segments)
-{
-
-	glBegin(GL_LINE_LOOP);
-	for (int i = 0; i < segments; i++)
-	{
-		float theta = 2.0f * 3.14159265359f * float(i) / float(segments);
-		float x = radius * cosf(theta);
-		float z = radius * sinf(theta);
-
-		glVertex3f(centerX + x,  centerZ + z ,centerY );
+GLuint compileShader(GLenum type, const char* src) {
+	GLuint shader = glCreateShader(type);
+	glShaderSource(shader, 1, &src, nullptr);
+	glCompileShader(shader);
+	GLint ok;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
+	if (!ok) {
+		char log[512];
+		glGetShaderInfoLog(shader, 512, nullptr, log);
+		std::cerr << "Shader compile error:\n" << log << "\n";
 	}
-	glEnd();
+	return shader;
 }
 
-std::vector<float> DrawPlanetin3d(float centerX, float centerY, float centerZ, float radius, int segments)
-{
-	const int vertexCount = segments + 2;
-	std::vector<float> vertices;
-	vertices.reserve(vertexCount * 3); // 3 components per vertex (x, y, z)
-	vertices.push_back(centerX); // Center vertex
-	vertices.push_back(centerY);
-	vertices.push_back(centerZ);
-
-	for (int i = 0; i <= segments; ++i)
-	{
-		float t = float(i) / segments;
-		float theta = t * TWO_PI;
-		float x = centerX + radius * std::cos(theta) * radius;
-		float z = centerZ + radius * std::sin(theta) * radius;
-
-		vertices.push_back(x);
-		vertices.push_back(centerY);
-		vertices.push_back(z);
+GLuint createShaderProgram(const char* vSrc, const char* fSrc) {
+	GLuint vs = compileShader(GL_VERTEX_SHADER, vSrc);
+	GLuint fs = compileShader(GL_FRAGMENT_SHADER, fSrc);
+	GLuint prog = glCreateProgram();
+	glAttachShader(prog, vs);
+	glAttachShader(prog, fs);
+	glLinkProgram(prog);
+	GLint ok;
+	glGetProgramiv(prog, GL_LINK_STATUS, &ok);
+	if (!ok) {
+		char log[512];
+		glGetProgramInfoLog(prog, 512, nullptr, log);
+		std::cerr << "Program link error:\n" << log << "\n";
 	}
-	return vertices;
+	glDeleteShader(vs);
+	glDeleteShader(fs);
+	return prog;
 }
 
-void DrawCircle (float centerX, float centerY, float radius, int res)
+GLuint loadTexture(const char* path)
 {
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2d(centerX, centerY);
-	for (int i = 0; i <= res; i++)
+	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true); // Flip the image vertically
+	unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
+	if (!data)
 	{
-		float angle = 2.0f * 3.14159f * (static_cast<float>(i) / res);
-		float x = centerX + cos(angle) * radius;
-		float y = centerY + sin(angle) * radius;
-		glVertex2d(x, y);
+		std::cerr << "Failed to load texture: " << path << std::endl;
+		return 0;
 	}
-	glEnd();
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	stbi_image_free(data);
+	return texture;
 }
+
+void setupTriangle(GLuint& VAO, GLuint& VBO) {
+	float verts[] = {
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f
+	};
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glBindVertexArray(0);
+}
+
+
+
+
+
+int main()
+{
+	GLFWwindow* window = StartGLFW();
+	if (!window) return -1;
+
+	GLuint VAO, VBO;
+	setupTriangle(VAO, VBO);
+
+	GLuint shader = createShaderProgram(vertSrc, fragSrc);
+	GLuint earthTexture = loadTexture("flat_earth.jpg");
+	GLint locMVP = glGetUniformLocation(shader, "uMVP");
+	//GLint locColor = glGetUniformLocation(shader, "uColor");
+
+
+	while (!glfwWindowShouldClose(window))
+	{
+		DeltaTime(); // Calculate delta time
+
+		processInput(window);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		float angle = glfwGetTime();
+
+		glm::mat4 mvp = computeMVP(window, angle);
+
+		glUseProgram(shader);
+		glUniformMatrix4fv(locMVP, 1, GL_FALSE, glm::value_ptr(mvp));
+		//glUniform3f(locColor, 0.0f, 1.0f, 0.0f);
+//		glBindVertexArray(VAO);
+//		glDrawArrays(GL_TRIANGLES, 0, 3);
+//		glBindVertexArray(0);
+
+		//MatrixUpdate();
+		//Triangle();
+		glUseProgram(shader);
+		glUniformMatrix4fv(locMVP, 1, GL_FALSE, glm::value_ptr(mvp));
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, earthTexture);
+		glUniform1i(glGetUniformLocation(shader, "uTexture"), 0);
+		renderSphere();
+		//DrawCirclein3D(0.0f, 0.0f, 0.0f, 1.5f, 128);
+		//DrawPlanetin3d(float radius, int segments);
+
+
+		glFlush(); // Ensure all OpenGL commands are executed
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+
+	}
+
+	glDeleteProgram(shader);
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glfwDestroyWindow(window);
+	glfwTerminate();
+	return 0;
+}
+
+
+
 void Triangle()
 {
-	glBegin(GL_TRIANGLES);
-	glColor3f(1.0f, 0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, 0.0f);
-	glColor3f(0.0f, 1.0f, 0.0f); glVertex3f(1.0f, -1.0f, 0.0f);
-	glColor3f(0.0f, 0.0f, 1.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	float triangleVertices[] = 
+		{
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f
+	};
 	glEnd();
 }
 void DrawCircle3D(float centerX, float centerY, float centerZ, float radius, int segments)
@@ -397,29 +401,12 @@ void WindowInit()
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-}
-
-
-void Camera(GLuint shaderProgram, glm::vec3 cameraPos)
-{
-//	glUseProgram(shaderProgram); // Shaders to apply
-	glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-//	GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
-//	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-}
-
-GLuint CreateShaderProgram(const char* vertexSource, const char* fragmentSource)
-{
-	return GLuint();
-}
-
-void CreateVBOVAO(GLuint& VBO, GLuint& VAO, const std::vector<float>& vertices)
-{
 }
 
 void DeltaTime()
@@ -434,11 +421,50 @@ void KeyboardInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 }
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+}
+
+GLuint CompileShader(GLenum type, const char* source) {
+	GLuint shader = glCreateShader(type);
+	glShaderSource(shader, 1, &source, nullptr);
+	glCompileShader(shader);
+
+	// Error checking
+	GLint success;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		char log[512];
+		glGetShaderInfoLog(shader, 512, nullptr, log);
+		std::cerr << "Shader compile error:\n" << log << std::endl;
+	}
+	return shader;
+}
+
+void processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+}
+glm::mat4 computeMVP(GLFWwindow* window, float angle) {
+	int w, h;
+	glfwGetFramebufferSize(window, &w, &h);
+	float aspect = float(w) / float(h);
+	glm::mat4 proj = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+	glm::mat4 view = glm::lookAt(
+		glm::vec3(0.0f, 0.0f, 3.0f),  // camera pos
+		glm::vec3(0.0f, 0.0f, 0.0f),  // target
+		glm::vec3(0.0f, 1.0f, 0.0f)   // up direction
+	);
+	glm::mat4 model = glm::rotate(glm::mat4(1.0f), angle,
+		glm::vec3(0.0f, 1.0f, 0.0f));
+	return proj * view * model;
+}
 void MatrixUpdate()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glLoadMatrixf(glm::value_ptr(projection));
+//	glLoadMatrixf(glm::value_ptr(projection));
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

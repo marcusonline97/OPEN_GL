@@ -30,4 +30,9 @@
       <Filter>SourceData</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\mjper\OneDrive\Pictures\flat_earth03.jpg">
+      <Filter>ResourceData</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
