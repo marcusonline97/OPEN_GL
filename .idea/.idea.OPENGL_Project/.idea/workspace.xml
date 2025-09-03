@@ -7,9 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be791db3-07cd-45f6-a3dd-c00f4cef2da8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/OpenGLTriangleA/OpenGLTriangleA.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/OpenGLTriangleA/OpenGLTriangleA.vcxproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OpenGLTriangleC/Source/stb_image.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.OPENGL_Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.OPENGL_Project/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OpenGLTriangleB/OpenGLTriangleB.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/OpenGLTriangleB/OpenGLTriangleB.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OpenGLTriangleC/OpenGLTriangleC.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/OpenGLTriangleC/OpenGLTriangleC.vcxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OpenGLTriangleB/Source/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/OpenGLTriangleB/Source/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,24 +20,36 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "marcusonline97"
+  }
 }]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/marcusonline97/OPEN_GL.git",
+    "accountId": "95daba58-0d55-4946-9363-5d59f8092873"
+  }
+}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="31liX9e74w7maeRwIDpFpc8dfyz" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "C/C++ Project.OpenGLTriangle.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;C/C++ Project.OpenGLTriangle.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="C/C++ Project.OpenGLTriangle">
     <configuration name="OpenGLTriangle" type="CppProject" factoryName="C++ Project">
       <configuration_1 setup="1">
@@ -83,6 +96,7 @@
       <option name="presentableId" value="Default" />
       <updated>1756105097974</updated>
       <workItem from="1756105101178" duration="113000" />
+      <workItem from="1756818449413" duration="128000" />
     </task>
     <servers />
   </component>

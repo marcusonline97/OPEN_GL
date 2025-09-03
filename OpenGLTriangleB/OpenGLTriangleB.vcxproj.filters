@@ -24,15 +24,34 @@
     <ClCompile Include="..\OpenGLTriangleC\CircleMesh.cpp">
       <Filter>SourceData</Filter>
     </ClCompile>
+    <ClCompile Include="Source\stb.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\glad.c">
+      <Filter>SourceData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGLTriangleC\CircleMesh.h">
       <Filter>SourceData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenGLTriangleC\Source\stb_image.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Linker.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\stb_image.h">
+      <Filter>HeaderData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="C:\Users\mjper\OneDrive\Pictures\flat_earth03.jpg">
       <Filter>ResourceData</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\vertex_core.glsl" />
+    <None Include="Assets\fragment_core.glsl" />
   </ItemGroup>
 </Project>

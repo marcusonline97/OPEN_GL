@@ -5,15 +5,20 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <stb_image.h>
+#include "stb_image.h"
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include <streambuf>
+#include <string>
 
 
 // --- Function Declarations ---
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 GLFWwindow* StartGLFW();
+std::string loadShaderSource(const char* filePath);
 GLuint compileShader(GLenum type, const char* src);
 GLuint createShaderProgram(const char* vertSrc, const char* fragSrc);
 void setupTriangle(GLuint& VAO, GLuint& VBO);
@@ -80,6 +85,7 @@ void MatrixUpdate();
 //Function Shapes
 void renderSphere();
 //Shader Program
+std::string loadShaderSource(const char* filename);
 GLuint compileShader(GLenum type, const char* src);
 GLuint createShaderProgram(const char* vSrc, const char* fSrc);
 //Texture Loader
@@ -138,6 +144,28 @@ GLFWwindow* StartGLFW() // Works fine
 	return window;
 }
 
+std::string loadShaderSource(const char* filename)
+{
+	std::ifstream file;
+	std::stringstream buf;
+
+	std::string ret = "";
+
+	file.open(filename);
+
+	if (file.is_open())
+	{
+		buf << file.rdbuf();
+		ret = buf.str();
+	}
+	else
+	{
+		std::cout << "Could not open file: " << filename << std::endl;
+	}
+}
+
+std::string loadShaderSource(const char* filename);
+
 GLuint compileShader(GLenum type, const char* src) {
 	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, 1, &src, nullptr);
@@ -192,6 +220,12 @@ GLuint loadTexture(const char* path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	stbi_image_free(data);
+
+	GLenum err = glGetError();
+	if (err != GL_NO_ERROR) {
+		std::cerr << "OpenGL error after texture load: " << err << std::endl;
+	}
+
 	return texture;
 }
 
