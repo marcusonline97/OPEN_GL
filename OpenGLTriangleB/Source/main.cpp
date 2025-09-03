@@ -141,6 +141,8 @@ GLFWwindow* StartGLFW() // Works fine
 
 	glViewport(0, 0, static_cast<int>(screenWidth), static_cast<int>(screenHeight)); //Determining the size of the Window.
 
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); //Registering the callback function for when the window is resized.
+
 	return window;
 }
 
@@ -262,6 +264,14 @@ int main()
 	GLint locMVP = glGetUniformLocation(shader, "uMVP");
 	//GLint locColor = glGetUniformLocation(shader, "uColor");
 
+	/*
+	 ----: shaders
+	*/
+
+	// Compile vertex shader
+	unsigned int vertexShader;
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	std::string vertShaderSrc = loadShaderSource("vertexShader.glsl");
 
 	while (!glfwWindowShouldClose(window))
 	{
