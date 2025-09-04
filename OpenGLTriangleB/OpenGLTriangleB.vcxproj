@@ -159,13 +159,21 @@
     <ClCompile Include="..\OpenGLTriangleC\CircleMesh.cpp" />
     <ClCompile Include="..\OpenGLTriangleC\Source\glad.c" />
     <ClCompile Include="Source\glad.c" />
+    <ClCompile Include="Source\io\Camera.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\physics\Enviroment.cpp" />
     <ClCompile Include="Source\stb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGLTriangleC\CircleMesh.h" />
     <ClInclude Include="..\OpenGLTriangleC\Source\stb_image.h" />
+    <ClInclude Include="Source\graphics\memory\framememory.hpp" />
+    <ClInclude Include="Source\graphics\memory\uniformmemory.hpp" />
+    <ClInclude Include="Source\graphics\memory\vertexmemory.hpp" />
+    <ClInclude Include="Source\io\Camera.h" />
     <ClInclude Include="Source\Linker.h" />
+    <ClInclude Include="Source\physics\enviroment.h" />
+    <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\stb_image.h" />
   </ItemGroup>
   <ItemGroup>

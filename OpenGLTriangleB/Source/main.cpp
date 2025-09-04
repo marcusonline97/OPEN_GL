@@ -99,6 +99,8 @@ void Triangle();
 //--- Declaration Functions ---
 GLFWwindow* StartGLFW() // Works fine
 {
+	//Add Compile Shader Function here
+
 	WindowInit();
 
 	if (!glfwInit())
@@ -269,9 +271,7 @@ int main()
 	*/
 
 	// Compile vertex shader
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	std::string vertShaderSrc = loadShaderSource("vertexShader.glsl");
+
 
 	while (!glfwWindowShouldClose(window))
 	{

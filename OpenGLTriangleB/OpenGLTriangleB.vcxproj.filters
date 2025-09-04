@@ -30,6 +30,12 @@
     <ClCompile Include="Source\glad.c">
       <Filter>SourceData</Filter>
     </ClCompile>
+    <ClCompile Include="Source\io\Camera.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\physics\Enviroment.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGLTriangleC\CircleMesh.h">
@@ -42,6 +48,24 @@
       <Filter>HeaderData</Filter>
     </ClInclude>
     <ClInclude Include="Source\stb_image.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\graphics\memory\framememory.hpp">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\io\Camera.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\physics\enviroment.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\graphics\memory\uniformmemory.hpp">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\graphics\memory\vertexmemory.hpp">
       <Filter>HeaderData</Filter>
     </ClInclude>
   </ItemGroup>
