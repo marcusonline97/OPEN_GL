@@ -36,6 +36,33 @@
     <ClCompile Include="Source\physics\Enviroment.cpp">
       <Filter>SourceData</Filter>
     </ClCompile>
+    <ClCompile Include="Source\io\keyboard.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\io\mouse.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scene.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\algorithms\octree.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\graphics\rendering\texture.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\graphics\rendering\shader.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\graphics\rendering\material.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\graphics\rendering\cubemap.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\graphics\rendering\light.cpp">
+      <Filter>SourceData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGLTriangleC\CircleMesh.h">
@@ -50,7 +77,7 @@
     <ClInclude Include="Source\stb_image.h">
       <Filter>HeaderData</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene.h">
+    <ClInclude Include="Source\scene.h">
       <Filter>HeaderData</Filter>
     </ClInclude>
     <ClInclude Include="Source\graphics\memory\framememory.hpp">
@@ -66,6 +93,33 @@
       <Filter>HeaderData</Filter>
     </ClInclude>
     <ClInclude Include="Source\graphics\memory\vertexmemory.hpp">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\io\keyboard.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\io\mouse.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\algorithms\octree.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\graphics\rendering\texture.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\graphics\rendering\shader.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\graphics\rendering\material.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\graphics\rendering\cubemap.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\graphics\rendering\light.h">
+      <Filter>HeaderData</Filter>
+    </ClInclude>
+    <ClInclude Include="Linking\include\stb\stb_image.h">
       <Filter>HeaderData</Filter>
     </ClInclude>
   </ItemGroup>
